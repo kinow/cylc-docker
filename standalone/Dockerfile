@@ -18,49 +18,52 @@
 # THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 FROM ubuntu:16.04
+
 MAINTAINER Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
 
-# A docker container with cylc installed.
+# A docker container with Cylc installed.
 
-RUN apt-get -y update && \
-	apt-get -y upgrade && \
-	apt-get -y install \
-	build-essential texlive-latex-base \
-	at \
-	git \
-	python python-dev python-pip \
-	pkg-config \
-	graphviz graphviz-dev libgraphviz-dev \
-	sqlite \
-	python-gtk2-dev \
-	python-pygraphviz \
-	heirloom-mailx
+# Install dependencies with apt and pip
 
-RUN pip install --upgrade pip
+RUN apt-get update &&  apt-get -y install \
+		at \
+		build-essential \
+		git \
+		graphviz graphviz-dev libgraphviz-dev \
+		heirloom-mailx \
+		pkg-config \
+		python-gtk2-dev \
+		python-pip \
+		python-pygraphviz \
+		python python-dev python-pip \
+		sqlite \
+		texlive-latex-base && \
+	pip install \
+		Jinja2 \
+		pycodestyle \
+		pyopenssl
 
-RUN cd /opt && \
-	git clone https://github.com/cylc/cylc.git && \
+# Retrieve copy of Cylc
+
+WORKDIR /opt
+
+RUN git clone https://github.com/cylc/cylc.git && \
 	cd cylc && \
-	git checkout 7.7.1
+	git checkout 7.7.2
 
-# Add cylc utilities to the PATH env var
-RUN echo "export PATH=/opt/cylc/bin:$PATH" >> ~/.bashrc 
+# Add Cylc utilities to the PATH environment variable
 
-RUN mkdir -p ~/.ssh
+ENV PATH /opt/cylc/bin:$PATH
 
-# Set up SSH for local Cylc jobs
-RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -N "" -q && \
-	cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
-	ssh-keyscan -t rsa localhost >> ~/.ssh/known_hosts
+# Generate SSH keys
 
-# pygraphviz seems broken on ubuntu, when installed via pip
-# see https://github.com/pygraphviz/pygraphviz/issues/71
-RUN cd /opt/cylc && \
-	pip install "Pyro>=3.10,<4.0" && \
-	pip install Jinja2 && \
-	pip install pygraphviz --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib/graphviz/" && \
-	pip install pycodestyle pyopenssl
+WORKDIR /root/.ssh
 
-RUN cd /opt/cylc/ && \
-	./bin/cylc check-software && \
-	./bin/cylc version
+RUN ssh-keygen -t rsa -f /root/.ssh/id_rsa -N "" -q && \
+	cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys && \
+	ssh-keyscan -t rsa localhost >> /root/.ssh/known_hosts
+
+# Set cylc as entrypoint, so that the container can be run as though it was
+# actually the cylc command
+
+ENTRYPOINT ["cylc"]
