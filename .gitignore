@@ -1,3 +1,5 @@
 cylc
 distributed/cylc
+distributed/id_rsa
+distributed/id_rsa.pub
 standalone/cylc
