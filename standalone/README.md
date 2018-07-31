@@ -14,12 +14,12 @@ user@localhost:~$ docker build --tag cylc .
 This will create a container with Ubuntu 16.04, python 2.7, Cylc dependencies, and
 a version of Cylc included under `/opt/cylc/`.
 
-This container can be run as though it was the real cylc command, as will be shown
+This container can be run as though it were the real cylc command, as will be shown
 in the next section.
 
 ## Running commands
 
-You can run this container as if it was the cylc command.
+You can run this container as if it were the cylc command.
 
 ```bash
 $ docker run cylc validate /opt/cylc/etc/examples/tutorial/oneoff/basic/
