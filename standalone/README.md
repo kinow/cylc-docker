@@ -1,6 +1,6 @@
 # Standalone Cylc
 
-In this standalone example, Cylc will both schedule and execute all tasks.
+In this standalone example, one Cylc container will both schedule and execute all tasks.
 
 ## Create base image
 
