@@ -8,7 +8,7 @@ The name of the tag used to build the container is important if you intend
 to run the container as a command.
 
 ```bash
-user@localhost:~$ docker build --tag cylc .
+$ docker build --tag cylc .
 ```
 
 This will create a container with Ubuntu 16.04, python 2.7, Cylc dependencies, and
