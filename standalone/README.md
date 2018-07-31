@@ -150,6 +150,17 @@ $ docker run cylc start --non-daemon --debug /opt/cylc/etc/examples/tutorial/one
 $
 ```
 
+### Running a terminal
+
+If you would like to explore the container contents, and instead of `cylc`,
+you preferred to have an entrypoint such as, say, `/bin/bash`, then you would
+have to change the container's entrypoint. For example:
+
+```bash
+$ docker run -ti --entrypoint /bin/bash cylc
+root@1dae549cd8ea:~/.ssh#
+```
+
 ## License
 
 Licensed under the MIT License.
