@@ -5,6 +5,13 @@ on multiple.
 
 ## Create base image
 
+```bash
+$ ssh-keygen -t rsa -f ./id_rsa -N "" -q
+$ cat id_rsa.pub | xargs -I{} docker run -d -p 4222:22 -v "$(pwd)"/cylc:/opt/cylc cylc-ssh {}
+c480bce9a6df0af1534f9c4223b6208d904f79747d9e0e3fd92745926c7f0661
+$ ssh root@localhost -p4222 -o IdentitiesOnly=yes -i "$(pwd)"/id_rsa
+```
+
 ## Running commands
 
 

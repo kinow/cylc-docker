@@ -50,11 +50,11 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 	openssh-server \
     && rm -rf /var/lib/apt/lists/*
 RUN sed -i /etc/ssh/sshd_config \
-        -e 's/#PermitRootLogin.*/PermitRootLogin yes/' \
-        -e 's/#RSAAuthentication.*/RSAAuthentication yes/'  \
-        -e 's/#PasswordAuthentication.*/PasswordAuthentication no/' \
-        -e 's/#SyslogFacility.*/SyslogFacility AUTH/' \
-        -e 's/#LogLevel.*/LogLevel INFO/' \
+        -e 's/.*PermitRootLogin.*/PermitRootLogin yes/' \
+        -e 's/.*RSAAuthentication.*/RSAAuthentication yes/'  \
+        -e 's/.*PasswordAuthentication.*/PasswordAuthentication no/' \
+        -e 's/.*SyslogFacility.*/SyslogFacility AUTH/' \
+        -e 's/.*LogLevel.*/LogLevel INFO/' \
 		&& mkdir /var/run/sshd
 
 VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
