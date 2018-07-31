@@ -55,14 +55,6 @@ RUN git clone https://github.com/cylc/cylc.git && \
 
 ENV PATH /opt/cylc/bin:$PATH
 
-# Generate SSH keys
-
-WORKDIR /root/.ssh
-
-RUN ssh-keygen -t rsa -f /root/.ssh/id_rsa -N "" -q && \
-	cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys && \
-	ssh-keyscan -t rsa localhost >> /root/.ssh/known_hosts
-
 # Set cylc as entrypoint, so that the container can be run as though it was
 # actually the cylc command
 
