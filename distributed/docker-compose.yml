@@ -1,7 +1,11 @@
 version: '3'
 
 services:
-  cylc:
+  cylc-ssh:
     build: .
+    environment:
+      - CYLC_SSH_PUBKEY
+    volumes:
+      - ./cylc:/opt/cylc
     ports:
       - 22

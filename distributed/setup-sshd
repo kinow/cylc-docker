@@ -33,6 +33,9 @@ write_key() {
 	chmod 0700 -R "/root/.ssh"
 }
 
+if [[ $CYLC_SSH_PUBKEY == ssh-* ]]; then
+  write_key "${CYLC_SSH_PUBKEY}"
+fi
 if [[ $# -gt 0 ]]; then
   if [[ $1 == ssh-* ]]; then
     write_key "$1"
