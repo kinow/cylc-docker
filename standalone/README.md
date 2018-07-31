@@ -22,6 +22,77 @@ in the next section.
 You can run this container as if it were the cylc command.
 
 ```bash
+$ docker run cylc check-software
+Checking your software...
+
+Individual results:
+stty: 'standard input': Inappropriate ioctl for device
+=============================================================================
+stty: 'standard input': Inappropriate ioctl for device
+Package (version requirements)                        Outcome (version found)
+stty: 'standard input': Inappropriate ioctl for device
+=============================================================================
+stty: 'standard input': Inappropriate ioctl for device
+                             *REQUIRED SOFTWARE*                             
+stty: 'standard input': Inappropriate ioctl for device
+Python (2.6+, <3)...................FOUND & min. version MET (2.7.12.final.0)
+
+stty: 'standard input': Inappropriate ioctl for device
+      *OPTIONAL SOFTWARE for the GUI & dependency graph visualisation*      
+/usr/lib/python2.7/dist-packages/gtk-2.0/gtk/__init__.py:57: GtkWarning: could not open display
+  warnings.warn(str(e), _gtk.Warning)
+stty: 'standard input': Inappropriate ioctl for device
+Python:pygtk (2.0+).........................FOUND & min. version MET (2.24.0)
+stty: 'standard input': Inappropriate ioctl for device
+graphviz (any).................................................FOUND (2.38.0)
+stty: 'standard input': Inappropriate ioctl for device
+Python:pygraphviz (any).........................................FOUND (1.3.1)
+
+stty: 'standard input': Inappropriate ioctl for device
+                 *OPTIONAL SOFTWARE for the HTML User Guide*                 
+stty: 'standard input': Inappropriate ioctl for device
+ImageMagick (any)...............................................NOT FOUND (-)
+
+stty: 'standard input': Inappropriate ioctl for device
+           *OPTIONAL SOFTWARE for the HTTPS communications layer*           
+stty: 'standard input': Inappropriate ioctl for device
+Python:urllib3 (any)............................................NOT FOUND (-)
+stty: 'standard input': Inappropriate ioctl for device
+Python:OpenSSL (any)...........................................FOUND (18.0.0)
+stty: 'standard input': Inappropriate ioctl for device
+Python:requests (2.4.2+)........................................NOT FOUND (-)
+
+stty: 'standard input': Inappropriate ioctl for device
+                *OPTIONAL SOFTWARE for the LaTeX User Guide*                
+stty: 'standard input': Inappropriate ioctl for device
+TeX:framed (any)................................................NOT FOUND (-)
+stty: 'standard input': Inappropriate ioctl for device
+TeX (3.0+)..............................FOUND & min. version MET (3.14159265)
+stty: 'standard input': Inappropriate ioctl for device
+TeX:preprint (any)..............................................NOT FOUND (-)
+stty: 'standard input': Inappropriate ioctl for device
+TeX:tex4ht (any)................................................NOT FOUND (-)
+stty: 'standard input': Inappropriate ioctl for device
+TeX:tocloft (any)...............................................NOT FOUND (-)
+stty: 'standard input': Inappropriate ioctl for device
+TeX:texlive (any)...............................................NOT FOUND (-)
+stty: 'standard input': Inappropriate ioctl for device
+=============================================================================
+
+Summary:
+stty: 'standard input': Inappropriate ioctl for device
+                        ****************************                        
+stty: 'standard input': Inappropriate ioctl for device
+                            Core requirements: ok                            
+stty: 'standard input': Inappropriate ioctl for device
+                         Full-functionality: not ok                         
+stty: 'standard input': Inappropriate ioctl for device
+                        ****************************  
+```
+
+And you can even run suites.
+
+```bash
 $ docker run cylc validate /opt/cylc/etc/examples/tutorial/oneoff/basic/
 Valid for cylc-7.7.2
 $ docker run cylc register /opt/cylc/etc/examples/tutorial/oneoff/basic/
