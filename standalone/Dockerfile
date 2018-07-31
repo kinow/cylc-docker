@@ -58,4 +58,6 @@ ENV PATH /opt/cylc/bin:$PATH
 # Set cylc as entrypoint, so that the container can be run as though it was
 # actually the cylc command
 
+WORKDIR /opt/cylc
+
 ENTRYPOINT ["cylc"]
