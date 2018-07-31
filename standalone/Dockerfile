@@ -55,7 +55,7 @@ RUN git clone https://github.com/cylc/cylc.git && \
 
 ENV PATH /opt/cylc/bin:$PATH
 
-# Set cylc as entrypoint, so that the container can be run as though it was
+# Set cylc as entrypoint, so that the container can be run as though it were
 # actually the cylc command
 
 WORKDIR /opt/cylc
