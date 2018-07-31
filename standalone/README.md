@@ -2,7 +2,7 @@
 
 In this standalone example, one Cylc container will both schedule and execute all tasks.
 
-## Create base image
+## Build the image
 
 The name of the tag used to build the container is important if you intend
 to run the container as a command.
