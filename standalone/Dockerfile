@@ -37,8 +37,8 @@ RUN apt-get update &&  apt-get -y install \
 		python-pygraphviz \
 		python python-dev python-pip \
 		sqlite \
-		texlive-latex-base && \
-	pip install \
+		texlive-latex-base \
+	&& pip install \
 		Jinja2 \
 		pycodestyle \
 		pyopenssl
