@@ -50,17 +50,29 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 	openssh-server \
     && rm -rf /var/lib/apt/lists/*
 RUN sed -i /etc/ssh/sshd_config \
-        -e 's/.*PermitRootLogin.*/PermitRootLogin yes/' \
-        -e 's/.*RSAAuthentication.*/RSAAuthentication yes/'  \
-        -e 's/.*PasswordAuthentication.*/PasswordAuthentication no/' \
-        -e 's/.*SyslogFacility.*/SyslogFacility AUTH/' \
-        -e 's/.*LogLevel.*/LogLevel INFO/' \
-		&& mkdir /var/run/sshd
+    -e 's/.*PermitRootLogin.*/PermitRootLogin yes/' \
+    -e 's/.*RSAAuthentication.*/RSAAuthentication yes/'  \
+    -e 's/.*PasswordAuthentication.*/PasswordAuthentication no/' \
+    -e 's/.*SyslogFacility.*/SyslogFacility AUTH/' \
+    -e 's/.*LogLevel.*/LogLevel INFO/' \
+	&& mkdir /var/run/sshd
+
+# Copy SSH keys
+
+WORKDIR /root/.ssh
+
+COPY id_rsa /root/.ssh/id_rsa
+COPY id_rsa.pub /root/.ssh/id_rsa.pub
+COPY config /root/.ssh/config
+
+RUN chmod 0600 /root/.ssh/id_rsa \
+	&& chmod 0600 /root/.ssh/id_rsa.pub
 
 VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
 WORKDIR "/opt/cylc"
 
 # Add Cylc utilities to the PATH environment variable
+
 ENV PATH /opt/cylc/bin:/usr/bin/:$PATH
 
 COPY setup-sshd /usr/bin/setup-sshd

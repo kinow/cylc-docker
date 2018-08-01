@@ -11,14 +11,47 @@ You will need an SSH key to connect to the running containers via SSH.
 $ ssh-keygen -t rsa -f ./id_rsa -N "" -q
 ```
 
-## Build the image
+## Starting up the containers
+
+Given you have the SSH public and private keys in the current directory, you must be able to
+run the following command to start 5 boxes with Cylc and SSH configured, and one jump box with
+Cylc and SSH with the certificates configured.
 
 ```bash
-$ CYLC_SSH_PUBKEY=$(cat id_rsa.pub)
-$ docker-compose up -d --scale cylc-ssh=2
+$ CYLC_SSH_PUBKEY=$(cat id_rsa.pub) docker-compose up -d --scale cylc-ssh=5 --scale cylc-jump-box=1
+```
+
+Confirm that the services are running.
+
+```bash
+$docker ps
+CONTAINER ID        IMAGE                       COMMAND             CREATED              STATUS              PORTS                   NAMES
+880f0ff29dd3        distributed_cylc-ssh        "setup-sshd"        About a minute ago   Up About a minute   0.0.0.0:32779->22/tcp   distributed_cylc-ssh_1
+2a06236fec5f        distributed_cylc-ssh        "setup-sshd"        About a minute ago   Up About a minute   0.0.0.0:32778->22/tcp   distributed_cylc-ssh_5
+c97e502c2e15        distributed_cylc-jump-box   "setup-sshd"        About a minute ago   Up About a minute   22/tcp                  distributed_cylc-jump-box_1
+8bc57ba12af2        distributed_cylc-ssh        "setup-sshd"        About a minute ago   Up About a minute   0.0.0.0:32776->22/tcp   distributed_cylc-ssh_4
+8671c279918f        distributed_cylc-ssh        "setup-sshd"        About a minute ago   Up About a minute   0.0.0.0:32777->22/tcp   distributed_cylc-ssh_3
+b62e7b2ac4a5        distributed_cylc-ssh        "setup-sshd"        About a minute ago   Up About a minute   0.0.0.0:32775->22/tcp   distributed_cylc-ssh_2
+```
+
+Start a terminal in the jump box container. From this container you should be able to access
+the other 5 containers.
+
+```bash
+$ docker exec -ti distributed_cylc-jump-box_1 /bin/bash
+root@c97e502c2e15:/opt/cylc#
+```
+
+Once you are done, you can stop the containers.
+
+```bash
+$ docker-compose down
 ```
 
 ## Connecting to the container via SSH
+
+If you would like to explore the running containers, you can start it manually and connect via SSH with
+the following commands.
 
 ```bash
 $ docker build --tag cylc-ssh .

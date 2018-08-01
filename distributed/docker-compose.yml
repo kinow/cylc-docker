@@ -9,3 +9,9 @@ services:
       - ./cylc:/opt/cylc
     ports:
       - 22
+  cylc-jump-box:
+    build: .
+    environment:
+      - CYLC_SSH_PUBKEY
+    volumes:
+      - ./cylc:/opt/cylc
