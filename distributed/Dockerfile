@@ -75,6 +75,8 @@ WORKDIR "/opt/cylc"
 
 ENV PATH /opt/cylc/bin:/usr/bin/:$PATH
 
+RUN echo "export PATH=$PATH" >> /etc/environment
+
 COPY setup-sshd /usr/bin/setup-sshd
 
 EXPOSE 22
