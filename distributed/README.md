@@ -39,7 +39,45 @@ the other 5 containers.
 
 ```bash
 $ docker exec -ti distributed_cylc-jump-box_1 /bin/bash
-root@c97e502c2e15:/opt/cylc#
+root@c97e502c2e15:/opt/cylc# cylc check-software
+Checking your software...
+
+Individual results:
+==========================================================================================
+Package (version requirements)                                     Outcome (version found)
+==========================================================================================
+                                   *REQUIRED SOFTWARE*                                   
+Python (2.6+, <3)................................FOUND & min. version MET (2.7.12.final.0)
+
+             *OPTIONAL SOFTWARE for the GUI & dependency graph visualisation*             
+/usr/lib/python2.7/dist-packages/gtk-2.0/gtk/__init__.py:57: GtkWarning: could not open display
+  warnings.warn(str(e), _gtk.Warning)
+Python:pygtk (2.0+)......................................FOUND & min. version MET (2.24.0)
+graphviz (any)..............................................................FOUND (2.38.0)
+Python:pygraphviz (any)......................................................FOUND (1.3.1)
+
+                       *OPTIONAL SOFTWARE for the HTML User Guide*                       
+ImageMagick (any)............................................................NOT FOUND (-)
+
+                  *OPTIONAL SOFTWARE for the HTTPS communications layer*                  
+Python:urllib3 (any).........................................................NOT FOUND (-)
+Python:OpenSSL (any)........................................................FOUND (18.0.0)
+Python:requests (2.4.2+).....................................................NOT FOUND (-)
+
+                       *OPTIONAL SOFTWARE for the LaTeX User Guide*                       
+TeX:framed (any).............................................................NOT FOUND (-)
+TeX (3.0+)...........................................FOUND & min. version MET (3.14159265)
+TeX:preprint (any)...........................................................NOT FOUND (-)
+TeX:tex4ht (any).............................................................NOT FOUND (-)
+TeX:tocloft (any)............................................................NOT FOUND (-)
+TeX:texlive (any)............................................................NOT FOUND (-)
+==========================================================================================
+
+Summary:
+                               ****************************                               
+                                  Core requirements: ok                                  
+                                Full-functionality: not ok                                
+                               **************************** 
 ```
 
 Once you are done, you can stop the containers.
