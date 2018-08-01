@@ -34,7 +34,15 @@ c97e502c2e15        distributed_cylc-jump-box   "setup-sshd"        About a minu
 b62e7b2ac4a5        distributed_cylc-ssh        "setup-sshd"        About a minute ago   Up About a minute   0.0.0.0:32775->22/tcp   distributed_cylc-ssh_2
 ```
 
-Start a terminal in the jump box container. From this container you should be able to access
+You can use Cylc from the container, without having to access the container directly.
+
+```bash
+$ docker exec -ti distributed_cylc-jump-box_1 cylc check-software
+```
+
+## Using the jump box from a terminal
+
+You can start a terminal in the jump box container. From this container you should be able to access
 the other 5 containers.
 
 ```bash
@@ -80,10 +88,27 @@ Summary:
                                **************************** 
 ```
 
+And you are able to run the suites from the Cylc installation.
+
+```bash
+$ docker exec -ti distributed_cylc-jump-box_1 cylc start --non-daemon --debug /opt/cylc/etc/examples/tutorial/oneoff/basic/
+```
+
 Once you are done, you can stop the containers.
 
 ```bash
 $ docker-compose down
+```
+
+```bash
+$ docker ps | grep -E "distributed_cylc-ssh_.*" -o
+$ seq 5 | xargs -I{} echo "distributed_cylc-ssh_{}" | xargs shuf -n1 -e
+```
+
+## Importing the test suite
+
+```bash
+$ docker
 ```
 
 ## Connecting to the container via SSH
