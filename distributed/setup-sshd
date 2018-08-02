@@ -45,6 +45,9 @@ if [[ $# -gt 0 ]]; then
   fi
 fi
 
+# start-up atd
+atd &
+
 
 # ensure variables passed to docker container are also exposed to ssh sessions
 env | grep _ >> /etc/environment
