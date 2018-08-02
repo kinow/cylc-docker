@@ -94,21 +94,106 @@ And you are able to run the suites from the Cylc installation.
 $ docker exec -ti distributed_cylc-jump-box_1 cylc start --non-daemon --debug /opt/cylc/etc/examples/tutorial/oneoff/basic/
 ```
 
+You can also include this extra remote suite that will test the Docker containers.
+
+```bash
+$ cp -r remote-suite/ cylc/etc/dev-suites/
+$ docker exec -ti distributed_cylc-jump-box_1 cylc start --non-daemon --debug /opt/cylc/etc/dev-suites/remote-suite
+            ._.                                                       
+            | |                 The Cylc Suite Engine [7.7.2]         
+._____._. ._| |_____.           Copyright (C) 2008-2018 NIWA          
+| .___| | | | | .___|  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+| !___| !_! | | !___.  This program comes with ABSOLUTELY NO WARRANTY;
+!_____!___. |_!_____!  see `cylc warranty`.  It is free software, you 
+      .___! |           are welcome to redistribute it under certain  
+      !_____!                conditions; see `cylc conditions`.       
+2018-08-02T09:41:33Z INFO - Suite starting: server=ca871dd12e1e:43070 pid=1285
+2018-08-02T09:41:33Z INFO - Cylc version: 7.7.2
+2018-08-02T09:41:33Z INFO - Run mode: live
+2018-08-02T09:41:33Z INFO - Initial point: 20120101
+2018-08-02T09:41:33Z INFO - Final point: 20120110
+2018-08-02T09:41:33Z INFO - Cold Start 20120101
+2018-08-02T09:41:33Z DEBUG - [remote_10_1.20120101] -released to the task pool
+2018-08-02T09:41:33Z DEBUG - [remote_10_2.20120101] -released to the task pool
+2018-08-02T09:41:33Z DEBUG - [local_9.20120101] -released to the task pool
+...
+...
+...
+2018-08-02T09:41:57Z DEBUG - [remote_6_1.20120101] -running => succeeded
+2018-08-02T09:41:57Z INFO - [remote_5_1.20120101] -(current:running)> succeeded at 2018-08-02T09:41:56Z
+2018-08-02T09:41:57Z DEBUG - [remote_5_1.20120101] -running => succeeded
+2018-08-02T09:41:57Z INFO - [remote_5_2.20120101] -(current:running)> succeeded at 2018-08-02T09:41:56Z
+2018-08-02T09:41:57Z DEBUG - [remote_5_2.20120101] -running => succeeded
+2018-08-02T09:41:57Z INFO - [remote_4_1.20120101] -(current:running)> succeeded at 2018-08-02T09:41:56Z
+2018-08-02T09:41:57Z DEBUG - [remote_4_1.20120101] -running => succeeded
+2018-08-02T09:41:57Z INFO - [remote_4_2.20120101] -(current:running)> succeeded at 2018-08-02T09:41:56Z
+2018-08-02T09:41:57Z DEBUG - [remote_4_2.20120101] -running => succeeded
+2018-08-02T09:41:57Z INFO - Suite shutting down - AUTOMATIC
+2018-08-02T09:41:58Z INFO - DONE
+```
+
 Once you are done, you can stop the containers.
 
 ```bash
 $ docker-compose down
 ```
 
+## Testing with Network Latency
+
+The containers started with `docker-compose.yml` contain the NET_ADMIN capability enabled, plus
+the `tc` utility installed.
+
+We can limit the network latency through the following command:
+
 ```bash
-$ docker ps | grep -E "distributed_cylc-ssh_.*" -o
-$ seq 5 | xargs -I{} echo "distributed_cylc-ssh_{}" | xargs shuf -n1 -e
+$ docker ps | grep -E "distributed_cylc-.*" -o | awk '{print $NF}' | xargs -I{} docker exec {} tc qdisc add dev eth0 root netem delay 200ms
 ```
 
-## Importing the test suite
+And disable it with:
 
 ```bash
-$ docker
+$ docker ps | grep -E "distributed_cylc-.*" -o | awk '{print $NF}' | xargs -I{} docker exec {} tc qdisc del dev eth0 root netem
+```
+
+Both commands exit with status code 0, and normally no output.
+
+You can then start an experiment with the remote suite, with the following commands.
+
+```bash
+$ cp remote-suite/remote.json cylc/etc/profile-experiments/remote.json
+$ docker exec -ti distributed_cylc-jump-box_1 cylc profile-battery -e remote -p --full
+```
+
+The first command puts the `remote.json` experiment in a folder within the Cylc installation,
+which is mapped as a volume in the containers. Then, the second command initialises the experiment.
+
+Without the latency, you should see results such as:
+
+```
+Version                HEAD        
+Run                    remote suite
+Elapsed Time (s)       24.6        
+CPU Time - Total (s)   2.7         
+CPU Time - User (s)    2.2         
+CPU Time - System (s)  0.5         
+Max Memory (kb)        41760.0     
+File System - Inputs   0.0         
+File System - Outputs  5896.0 
+```
+
+Whereas once enabled a latency of around 200ms, you should notice an increase in the
+total execution time.
+
+```
+Version                HEAD        
+Run                    remote suite
+Elapsed Time (s)       49.6        
+CPU Time - Total (s)   9.2         
+CPU Time - User (s)    7.2         
+CPU Time - System (s)  1.9         
+Max Memory (kb)        41744.0     
+File System - Inputs   0.0         
+File System - Outputs  7080.0
 ```
 
 ## Connecting to the container via SSH

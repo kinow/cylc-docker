@@ -9,9 +9,13 @@ services:
       - ./cylc:/opt/cylc
     ports:
       - 22
+    cap_add:
+      - NET_ADMIN
   cylc-jump-box:
     build: .
     environment:
       - CYLC_SSH_PUBKEY
     volumes:
       - ./cylc:/opt/cylc
+    cap_add:
+      - NET_ADMIN

@@ -4,8 +4,8 @@
     description = """Suite for testing the docker distributed environment.
     Based on Dave's evil load test."""
 
-{% set N_LOCAL = 10 %}
-{% set N_REMOTE_PER_LOCAL = 2 %}
+{% set N_LOCAL = 1 %}
+{% set N_REMOTE_PER_LOCAL = 10 %}
 [cylc]
 #    [[job submission]]
 #        delay between batches = 0

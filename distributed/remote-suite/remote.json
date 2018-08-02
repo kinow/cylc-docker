@@ -1,0 +1,10 @@
+{
+    "runs": [
+        {
+           "name": "remote suite",
+           "suite dir": "etc/dev-suites/remote-suite",
+           "options": ["batch_system=at", "sleep_time=1"]
+        }
+    ],
+    "profile modes": ["time"]
+}

@@ -31,6 +31,8 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 		git \
 		graphviz graphviz-dev libgraphviz-dev \
 		heirloom-mailx \
+		inetutils-ping \
+		iproute2 \
 		pkg-config \
 		python-gtk2-dev \
 		python-pip \
@@ -38,6 +40,7 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 		python python-dev python-pip \
 		python-setuptools \
 		sqlite \
+		time \
 		texlive-latex-base \
 	&& pip install \
 		Jinja2 \
