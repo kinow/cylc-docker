@@ -6,9 +6,12 @@
 
 {% set N_LOCAL = 10 %}
 {% set N_REMOTE_PER_LOCAL = 2 %}
-#[cylc]
+[cylc]
 #    [[job submission]]
 #        delay between batches = 0
+    [[environment]]
+        CYLC_TASK_SSH_LOGIN_SHELL = True
+        CYLC_DIR = /opt/cylc
 [scheduling]
     initial cycle point = 20120101
     final cycle point   = 20120110
