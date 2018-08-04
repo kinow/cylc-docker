@@ -138,7 +138,7 @@ Once you are done, you can stop the containers.
 $ docker-compose down
 ```
 
-## Testing with Network Latency
+## Simulating Slower Network Connections
 
 The containers started with `docker-compose.yml` contain the NET_ADMIN capability enabled, plus
 the `tc` utility installed.
@@ -194,6 +194,20 @@ CPU Time - System (s)  1.9
 Max Memory (kb)        41744.0     
 File System - Inputs   0.0         
 File System - Outputs  7080.0
+```
+
+Another option is to reduce the bandwidth.
+
+```bash
+$ docker ps | grep -E "distributed_cylc-.*" -o | awk '{print $NF}' | xargs -I{} docker exec {} tc qdisc add dev eth0 handle 1: root htb default 11
+$ docker ps | grep -E "distributed_cylc-.*" -o | awk '{print $NF}' | xargs -I{} docker exec {} tc class add dev eth0 parent 1: classid 1:1 htb rate 512kbps
+$ docker ps | grep -E "distributed_cylc-.*" -o | awk '{print $NF}' | xargs -I{} docker exec {} tc class add dev eth0 parent 1:1 classid 1:11 htb rate 512kbps
+```
+
+And to undo the changes:
+
+```bash
+$ docker ps | grep -E "distributed_cylc-.*" -o | awk '{print $NF}' | xargs -I{} docker exec {} tc qdisc del dev eth0 root
 ```
 
 ## Connecting to the container via SSH

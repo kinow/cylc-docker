@@ -25,7 +25,7 @@ MAINTAINER Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
 
 # Install dependencies with apt and pip
 
-RUN apt-get update &&  apt-get -y install \
+RUN apt-get update && apt-get --no-install-recommends -y install \
 		at \
 		build-essential \
 		git \
@@ -36,28 +36,23 @@ RUN apt-get update &&  apt-get -y install \
 		python-pip \
 		python-pygraphviz \
 		python python-dev python-pip \
+		python-setuptools \
 		sqlite \
+		time \
 		texlive-latex-base \
 	&& pip install \
 		Jinja2 \
 		pycodestyle \
 		pyopenssl
 
-# Retrieve copy of Cylc
-
-WORKDIR /opt
-
-RUN git clone https://github.com/cylc/cylc.git && \
-	cd cylc && \
-	git checkout 7.7.2
+VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
+WORKDIR "/opt/cylc"
 
 # Add Cylc utilities to the PATH environment variable
 
-ENV PATH /opt/cylc/bin:$PATH
+ENV PATH /opt/cylc/bin:/usr/bin/:$PATH
 
 # Set cylc as entrypoint, so that the container can be run as though it were
 # actually the cylc command
-
-WORKDIR /opt/cylc
 
 ENTRYPOINT ["cylc"]

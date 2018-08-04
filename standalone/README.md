@@ -21,83 +21,70 @@ in the next section.
 
 You can run this container as if it were the cylc command.
 
+First grab a copy of Cylc. The latest at the time of writing is 7.7.2.
+
 ```bash
-$ docker run cylc check-software
+
+$ git clone --branch 7.7.2 https://github.com/cylc/cylc.git
+```
+
+Then you can use execute cylc from within the container, using a mapped volume. Changes
+caused by the cylc to files and folders under `/opt/cylc` will be automatically
+in your copy of the folder in the host computer.
+
+If you need other files to be persisted outside the container, just include the extra
+volumes.
+
+```bash
+$ docker run -ti -v "$(pwd -P)"/cylc:/opt/cylc cylc check-software
 Checking your software...
 
 Individual results:
-stty: 'standard input': Inappropriate ioctl for device
-=============================================================================
-stty: 'standard input': Inappropriate ioctl for device
-Package (version requirements)                        Outcome (version found)
-stty: 'standard input': Inappropriate ioctl for device
-=============================================================================
-stty: 'standard input': Inappropriate ioctl for device
-                             *REQUIRED SOFTWARE*                             
-stty: 'standard input': Inappropriate ioctl for device
-Python (2.6+, <3)...................FOUND & min. version MET (2.7.12.final.0)
+==========================================================================================
+Package (version requirements)                                     Outcome (version found)
+==========================================================================================
+                                   *REQUIRED SOFTWARE*                                   
+Python (2.6+, <3)................................FOUND & min. version MET (2.7.12.final.0)
 
-stty: 'standard input': Inappropriate ioctl for device
-      *OPTIONAL SOFTWARE for the GUI & dependency graph visualisation*      
+             *OPTIONAL SOFTWARE for the GUI & dependency graph visualisation*             
 /usr/lib/python2.7/dist-packages/gtk-2.0/gtk/__init__.py:57: GtkWarning: could not open display
   warnings.warn(str(e), _gtk.Warning)
-stty: 'standard input': Inappropriate ioctl for device
-Python:pygtk (2.0+).........................FOUND & min. version MET (2.24.0)
-stty: 'standard input': Inappropriate ioctl for device
-graphviz (any).................................................FOUND (2.38.0)
-stty: 'standard input': Inappropriate ioctl for device
-Python:pygraphviz (any).........................................FOUND (1.3.1)
+Python:pygtk (2.0+)......................................FOUND & min. version MET (2.24.0)
+graphviz (any)..............................................................FOUND (2.38.0)
+Python:pygraphviz (any)......................................................FOUND (1.3.1)
 
-stty: 'standard input': Inappropriate ioctl for device
-                 *OPTIONAL SOFTWARE for the HTML User Guide*                 
-stty: 'standard input': Inappropriate ioctl for device
-ImageMagick (any)...............................................NOT FOUND (-)
+                       *OPTIONAL SOFTWARE for the HTML User Guide*                       
+ImageMagick (any)............................................................NOT FOUND (-)
 
-stty: 'standard input': Inappropriate ioctl for device
-           *OPTIONAL SOFTWARE for the HTTPS communications layer*           
-stty: 'standard input': Inappropriate ioctl for device
-Python:urllib3 (any)............................................NOT FOUND (-)
-stty: 'standard input': Inappropriate ioctl for device
-Python:OpenSSL (any)...........................................FOUND (18.0.0)
-stty: 'standard input': Inappropriate ioctl for device
-Python:requests (2.4.2+)........................................NOT FOUND (-)
+                  *OPTIONAL SOFTWARE for the HTTPS communications layer*                  
+Python:urllib3 (any).........................................................NOT FOUND (-)
+Python:OpenSSL (any)........................................................FOUND (18.0.0)
+Python:requests (2.4.2+).....................................................NOT FOUND (-)
 
-stty: 'standard input': Inappropriate ioctl for device
-                *OPTIONAL SOFTWARE for the LaTeX User Guide*                
-stty: 'standard input': Inappropriate ioctl for device
-TeX:framed (any)................................................NOT FOUND (-)
-stty: 'standard input': Inappropriate ioctl for device
-TeX (3.0+)..............................FOUND & min. version MET (3.14159265)
-stty: 'standard input': Inappropriate ioctl for device
-TeX:preprint (any)..............................................NOT FOUND (-)
-stty: 'standard input': Inappropriate ioctl for device
-TeX:tex4ht (any)................................................NOT FOUND (-)
-stty: 'standard input': Inappropriate ioctl for device
-TeX:tocloft (any)...............................................NOT FOUND (-)
-stty: 'standard input': Inappropriate ioctl for device
-TeX:texlive (any)...............................................NOT FOUND (-)
-stty: 'standard input': Inappropriate ioctl for device
-=============================================================================
+                       *OPTIONAL SOFTWARE for the LaTeX User Guide*                       
+TeX:framed (any).............................................................NOT FOUND (-)
+TeX (3.0+)...........................................FOUND & min. version MET (3.14159265)
+TeX:preprint (any)...........................................................NOT FOUND (-)
+TeX:tex4ht (any).............................................................NOT FOUND (-)
+TeX:tocloft (any)............................................................NOT FOUND (-)
+TeX:texlive (any)............................................................NOT FOUND (-)
+==========================================================================================
 
 Summary:
-stty: 'standard input': Inappropriate ioctl for device
-                        ****************************                        
-stty: 'standard input': Inappropriate ioctl for device
-                            Core requirements: ok                            
-stty: 'standard input': Inappropriate ioctl for device
-                         Full-functionality: not ok                         
-stty: 'standard input': Inappropriate ioctl for device
-                        ****************************  
+                               ****************************                               
+                                  Core requirements: ok                                  
+                                Full-functionality: not ok                                
+                               **************************** 
 ```
 
-And you can even run suites.
+You can create an alias if you would like. And you can even run suites.
 
 ```bash
-$ docker run cylc validate /opt/cylc/etc/examples/tutorial/oneoff/basic/
+$ docker run -ti -v "$(pwd -P)"/cylc:/opt/cylc cylc validate /opt/cylc/etc/examples/tutorial/oneoff/basic/
 Valid for cylc-7.7.2
-$ docker run cylc register /opt/cylc/etc/examples/tutorial/oneoff/basic/
+$ docker run -ti -v "$(pwd -P)"/cylc:/opt/cylc cylc register /opt/cylc/etc/examples/tutorial/oneoff/basic/
 REGISTER /opt/cylc/etc/examples/tutorial/oneoff/basic/
-$ docker run cylc start --non-daemon --debug /opt/cylc/etc/examples/tutorial/oneoff/basic/
+$ docker run -ti -v "$(pwd -P)"/cylc:/opt/cylc cylc start --non-daemon --debug /opt/cylc/etc/examples/tutorial/oneoff/basic/
             ._.                                                       
             | |                 The Cylc Suite Engine [7.7.2]         
 ._____._. ._| |_____.           Copyright (C) 2008-2018 NIWA          
@@ -157,7 +144,7 @@ you preferred to have an entrypoint such as, say, `/bin/bash`, then you would
 have to change the container's entrypoint. For example:
 
 ```bash
-$ docker run -ti --entrypoint /bin/bash cylc
+$ docker run -ti -v "$(pwd -P)"/cylc:/opt/cylc --entrypoint /bin/bash cylc
 root@1dae549cd8ea:~/.ssh#
 ```
 
