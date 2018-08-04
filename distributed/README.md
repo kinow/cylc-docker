@@ -1,4 +1,4 @@
-# Standalone Cylc
+# Distributed Cylc
 
 In this distributed example, Cylc will be scheduled from one container, but executed
 on multiple.
