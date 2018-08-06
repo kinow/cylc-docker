@@ -34,6 +34,7 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 		pkg-config \
 		python-gtk2-dev \
 		python-pip \
+                python-wheel \
 		python-pygraphviz \
 		python python-dev python-pip \
 		python-setuptools \
