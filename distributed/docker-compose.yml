@@ -7,6 +7,8 @@ services:
       - CYLC_SSH_PUBKEY
     volumes:
       - ./cylc:/opt/cylc
+      - ~/cylc-run:/root/cylc-run
+      - ~/.cylc:/root/.cylc
     ports:
       - 22
     cap_add:
@@ -17,5 +19,7 @@ services:
       - CYLC_SSH_PUBKEY
     volumes:
       - ./cylc:/opt/cylc
+      - ~/cylc-run:/root/cylc-run
+      - ~/.cylc:/root/.cylc
     cap_add:
       - NET_ADMIN
