@@ -1,6 +1,6 @@
 # Cylc Review
 
-This setup provides Cylc Review running on an Alpine image as WSGI service,
+This setup provides Cylc Review running on an Ubuntu image as WSGI service,
 reverse proxied through another image running nginx with Alpine too.
 
 Users are able to run suites in the backend container, while following up the
