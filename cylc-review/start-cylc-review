@@ -1,0 +1,11 @@
+#!/bin/bash
+
+uwsgi \
+	--socket 0.0.0.0:3031 \
+	--plugins python,http \
+	--need-app \
+	--enable-threads \
+	--uid cylc \
+	--pythonpath /opt/cylc/lib/ \
+	--wsgi-file /opt/cylc/bin/cylc-review \
+	--protocol uwsgi
