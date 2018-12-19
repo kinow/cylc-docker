@@ -52,5 +52,7 @@ atd &
 # ensure variables passed to docker container are also exposed to ssh sessions
 env | grep _ >> /etc/environment
 
+mkdir -p /var/run/sshd
+
 ssh-keygen -A
 exec /usr/sbin/sshd -D -e "${@}"
