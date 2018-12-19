@@ -1,5 +1,9 @@
 # Standalone Cylc
 
+* Docker image: [kinow/cylc-standalone](https://hub.docker.com/r/kinow/cylc-standalone/)
+* Base images: [ubuntu:16.04](https://hub.docker.com/_/ubuntu/)
+* Source: [Dockerfile](https://github.com/kinow/cylc-docker/blob/master/standalone/Dockerfile), [Cylc](https://cylc.github.io/cylc/)
+
 In this standalone example, one Cylc container will both schedule and execute all tasks.
 
 ## Build the image
