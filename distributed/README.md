@@ -1,5 +1,9 @@
 # Distributed Cylc
 
+* Docker image: [kinow/cylc-distributed](https://hub.docker.com/r/kinow/cylc-distributed/)
+* Base images: [cylc-standalone](https://hub.docker.com/r/kinow/cylc-standalone/), [ubuntu:16.04](https://hub.docker.com/_/ubuntu/)
+* Source: [Dockerfile](https://github.com/kinow/cylc-docker/blob/master/distributed/Dockerfile), [Cylc](https://cylc.github.io/cylc/)
+
 In this distributed example, Cylc will be scheduled from one container, but executed
 on multiple.
 
