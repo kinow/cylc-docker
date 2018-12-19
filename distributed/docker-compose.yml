@@ -2,7 +2,7 @@ version: '3'
 
 services:
   cylc-ssh:
-    build: .
+    image: kinow/cylc-distributed:0.1
     environment:
       - CYLC_SSH_PUBKEY
     volumes:
@@ -14,7 +14,7 @@ services:
     cap_add:
       - NET_ADMIN
   cylc-jump-box:
-    build: .
+    image: kinow/cylc-distributed:0.1
     environment:
       - CYLC_SSH_PUBKEY
     volumes:
