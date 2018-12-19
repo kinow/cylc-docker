@@ -17,33 +17,18 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR 
 # THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-FROM ubuntu:16.04
+FROM kinow/cylc-standalone:0.1
 
 MAINTAINER Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
 
 # A docker container with Cylc dependencies and OpenSSH server installed.
 
-# Install Cylc dependencies with apt and pip
+# Install dependencies with apt and pip
 
 RUN apt-get update && apt-get --no-install-recommends -y install \
-		at \
-		build-essential \
-		git \
-		graphviz graphviz-dev libgraphviz-dev \
-		heirloom-mailx \
 		inetutils-ping \
 		iproute2 \
-		pkg-config \
-		python-gtk2-dev \
-		python-pip \
-		python-pygraphviz \
-		python python-dev python-pip \
-		python-setuptools \
-		sqlite \
-		time \
-		texlive-latex-base \
 	&& pip install \
-		Jinja2 \
 		pycodestyle \
 		pyopenssl
 
