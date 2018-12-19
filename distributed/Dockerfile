@@ -26,16 +26,16 @@ MAINTAINER Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
 # Install dependencies with apt and pip
 
 RUN apt-get update && apt-get --no-install-recommends -y install \
-		inetutils-ping \
-		iproute2 \
-	&& pip install \
-		pycodestyle \
-		pyopenssl
+        inetutils-ping \
+        iproute2 \
+    && pip install \
+        pycodestyle \
+        pyopenssl
 
 # Install and set up SSH server
 
 RUN apt-get update && apt-get --no-install-recommends -y install \
-	openssh-server \
+    openssh-server \
     && rm -rf /var/lib/apt/lists/*
 RUN sed -i /etc/ssh/sshd_config \
     -e 's/.*PermitRootLogin.*/PermitRootLogin yes/' \
@@ -43,7 +43,7 @@ RUN sed -i /etc/ssh/sshd_config \
     -e 's/.*PasswordAuthentication.*/PasswordAuthentication no/' \
     -e 's/.*SyslogFacility.*/SyslogFacility AUTH/' \
     -e 's/.*LogLevel.*/LogLevel INFO/' \
-	&& mkdir /var/run/sshd
+    && mkdir /var/run/sshd
 
 # Copy SSH keys
 
@@ -54,7 +54,7 @@ COPY id_rsa.pub /root/.ssh/id_rsa.pub
 COPY config /root/.ssh/config
 
 RUN chmod 0600 /root/.ssh/id_rsa \
-	&& chmod 0600 /root/.ssh/id_rsa.pub
+    && chmod 0600 /root/.ssh/id_rsa.pub
 
 VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
 WORKDIR "/opt/cylc"
