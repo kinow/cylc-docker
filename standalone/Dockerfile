@@ -26,25 +26,24 @@ MAINTAINER Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
 # Install dependencies with apt and pip
 
 RUN apt-get update && apt-get --no-install-recommends -y install \
-		at \
-		build-essential \
-		git \
-		graphviz graphviz-dev libgraphviz-dev \
-		heirloom-mailx \
-		pkg-config \
-		python-gtk2-dev \
-		python-pip \
-                python-wheel \
-		python-pygraphviz \
-		python python-dev python-pip \
-		python-setuptools \
-		sqlite \
-		time \
-		texlive-latex-base \
-	&& pip install \
-		Jinja2 \
-		pycodestyle \
-		pyopenssl
+        at \
+        build-essential \
+        git \
+        graphviz graphviz-dev libgraphviz-dev \
+        heirloom-mailx \
+        pkg-config \
+        python-gtk2-dev \
+        python-pip \
+        python-wheel \
+        python-pygraphviz \
+        python python-dev python-pip \
+        python-setuptools \
+        sqlite \
+        time \
+        texlive-latex-base \
+    && pip install \
+        pycodestyle \
+        pyopenssl
 
 VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
 WORKDIR "/opt/cylc"
