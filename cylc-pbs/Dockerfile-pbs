@@ -21,6 +21,9 @@ RUN yum install -y \
 # Copy SSH keys
 
 RUN echo "${CYLC_SSH_PUBKEY}" >> /home/testuser/.ssh/authorized_keys
+RUN chown -R testuser: /home/testuser/.ssh/ \
+    && chmod 0700 /home/testuser/.ssh/ \
+    && chmod 0644 /home/testuser/.ssh/authorized_keys
 
 VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
 WORKDIR "/opt/cylc"

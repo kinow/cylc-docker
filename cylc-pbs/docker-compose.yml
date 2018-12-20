@@ -6,9 +6,9 @@ services:
       context: ./
       dockerfile: Dockerfile-cylc
     volumes:
-      - cylcrun:/root/cylc-run
       - ./cylc:/opt/cylc
-      - ~/.cylc:/root/.cylc
+      - cylcrun:/home/testuser/cylc-run
+      - ~/.cylc:/home/testuser/.cylc
   pbs:
     build:
       context: ./

@@ -10,16 +10,24 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 
 # Copy SSH keys
 
-WORKDIR /root/.ssh
+RUN adduser "testuser" --uid 500 && \
+    echo "testuser:testuser" | chpasswd
 
-COPY id_rsa /root/.ssh/id_rsa
-COPY id_rsa.pub /root/.ssh/id_rsa.pub
-COPY config /root/.ssh/config
+COPY id_rsa /home/testuser/.ssh/id_rsa
+COPY id_rsa.pub /home/testuser/.ssh/id_rsa.pub
+COPY config /home/testuser/.ssh/config
+
+RUN chown -R testuser: /home/testuser/.ssh/ \
+    && chmod 0700 /home/testuser/.ssh/ \
+    && chmod 0644 /home/testuser/.ssh/id_rsa.pub \
+    && chmod 0600 /home/testuser/.ssh/config \
+    && chmod 0600 /home/testuser/.ssh/id_rsa
 
 VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
 WORKDIR "/opt/cylc"
 
 ENV PATH="/opt/cylc/bin:/usr/bin/:${PATH}"
+COPY cylc/usr/bin/cylc /home/testuser/bin/cylc
 
 ENTRYPOINT []
 CMD ["/usr/bin/supervisord", "-n"]
