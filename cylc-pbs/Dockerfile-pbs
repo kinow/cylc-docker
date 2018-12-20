@@ -1,0 +1,35 @@
+FROM agaveapi/torque:latest
+
+ARG CYLC_SSH_PUBKEY
+RUN if [[ ! ${CYLC_SSH_PUBKEY} == ssh-* ]]; then echo "Need to set CYLC_SSH_PUBKEY" && exit 1; fi
+
+RUN yum groupinstall -y "development-tools"
+
+RUN yum install -y \
+        at \
+        git \
+        pkgconfig \
+        python python-devel python-pip \
+        python-setuptools \
+        python-empy \
+        python-urllib3 \
+        pyOpenSSL \
+        sqlite \
+        time \
+        ; yum clean all
+
+# Copy SSH keys
+
+RUN echo "${CYLC_SSH_PUBKEY}" >> /home/testuser/.ssh/authorized_keys
+
+VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
+WORKDIR "/opt/cylc"
+
+# Add Cylc utilities to the PATH environment variable
+
+ENV PATH="/opt/cylc/bin:/usr/bin/:${PATH}"
+COPY cylc/usr/bin/cylc /home/testuser/bin/cylc
+
+WORKDIR /usr/local/5.0.0l
+EXPOSE 10389 22
+CMD ["/usr/bin/supervisord"]

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  cylc:
+    build:
+      context: ./
+      dockerfile: Dockerfile-cylc
+    volumes:
+      - cylcrun:/root/cylc-run
+      - ./cylc:/opt/cylc
+      - ~/.cylc:/root/.cylc
+  pbs:
+    build:
+      context: ./
+      dockerfile: Dockerfile-pbs
+      args:
+        - CYLC_SSH_PUBKEY=${CYLC_SSH_PUBKEY}
+    privileged: true
+    volumes:
+      - ./cylc:/opt/cylc
+      - cylcrun:/home/testuser/cylc-run
+      - ~/.cylc:/home/testuser/.cylc
+
+volumes:
+  cylcrun:

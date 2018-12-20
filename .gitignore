@@ -4,4 +4,8 @@ distributed/id_rsa
 distributed/id_rsa.pub
 standalone/cylc
 cylc-review/cylc
+cylc-pbs/cylc
+cylc-pbs/id_rsa
+cylc-pbs/id_rsa.pub
+cylc-pbs/.env
 

@@ -1,0 +1,25 @@
+FROM kinow/cylc-standalone:0.1
+
+RUN apt-get update && apt-get --no-install-recommends -y install \
+	inetutils-ping \
+	less \
+	python-empy \
+	python-requests \
+	ssh \
+	supervisor
+
+# Copy SSH keys
+
+WORKDIR /root/.ssh
+
+COPY id_rsa /root/.ssh/id_rsa
+COPY id_rsa.pub /root/.ssh/id_rsa.pub
+COPY config /root/.ssh/config
+
+VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
+WORKDIR "/opt/cylc"
+
+ENV PATH="/opt/cylc/bin:/usr/bin/:${PATH}"
+
+ENTRYPOINT []
+CMD ["/usr/bin/supervisord", "-n"]
