@@ -16,6 +16,7 @@ services:
       args:
         - CYLC_SSH_PUBKEY=${CYLC_SSH_PUBKEY}
     privileged: true
+    hostname: localhost
     volumes:
       - ./cylc:/opt/cylc
       - cylcrun:/home/testuser/cylc-run
