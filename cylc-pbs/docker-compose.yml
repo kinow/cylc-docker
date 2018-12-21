@@ -9,6 +9,7 @@ services:
       - ./cylc:/opt/cylc
       - cylcrun:/home/testuser/cylc-run
       - ~/.cylc:/home/testuser/.cylc
+    container_name: cylc
   pbs:
     build:
       context: ./
@@ -21,6 +22,6 @@ services:
       - ./cylc:/opt/cylc
       - cylcrun:/home/testuser/cylc-run
       - ~/.cylc:/home/testuser/.cylc
-
+    container_name: pbs
 volumes:
   cylcrun:

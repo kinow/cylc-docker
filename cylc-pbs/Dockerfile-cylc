@@ -9,18 +9,30 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 	supervisor \
 	vim
 
-# Copy SSH keys
-
 RUN adduser "testuser" --uid 500 && \
     echo "testuser:testuser" | chpasswd
+
+# Add Cylc utilities to the PATH environment variable
+
+ENV PATH="/opt/cylc/bin:/usr/bin/:${PATH}"
+COPY cylc/usr/bin/cylc /home/testuser/bin/cylc
+
+RUN chown -R testuser: /home/testuser/bin \
+    && chmod 0755 /home/testuser/bin/cylc
+
+RUN mkdir /home/testuser/.cylc && chown testuser: /home/testuser/.cylc
+
+# Copy example suite
+
+COPY suite.rc /home/testuser/suites/pbs1/suite.rc
+
+RUN chown testuser: /home/testuser/suites/pbs1/suite.rc
+
+# Copy SSH keys
 
 COPY id_rsa /home/testuser/.ssh/id_rsa
 COPY id_rsa.pub /home/testuser/.ssh/id_rsa.pub
 COPY config /home/testuser/.ssh/config
-COPY suite.rc /home/testuser/suites/pbs1/suite.rc
-
-ENV PATH="/opt/cylc/bin:/usr/bin/:${PATH}"
-COPY cylc/usr/bin/cylc /home/testuser/bin/cylc
 
 RUN chown -R testuser: /home/testuser/.ssh \
 	&& chown -R testuser: /home/testuser/bin \
@@ -29,11 +41,10 @@ RUN chown -R testuser: /home/testuser/.ssh \
     && chmod -R 0700 /home/testuser/.ssh \
     && chmod 0644 /home/testuser/.ssh/id_rsa.pub \
     && chmod 0600 /home/testuser/.ssh/config \
-    && chmod 0600 /home/testuser/.ssh/id_rsa \
-    && chown testuser: /home/testuser/suites/pbs1/suite.rc
+    && chmod 0600 /home/testuser/.ssh/id_rsa
 
-VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
 WORKDIR "/opt/cylc"
 
+VOLUME ["/opt/cylc", "/tmp", "/run", "/var/run", "/home/testuser/.cylc"]
 ENTRYPOINT []
 CMD ["/usr/bin/supervisord", "-n"]

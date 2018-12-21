@@ -18,21 +18,27 @@ RUN yum install -y \
         time \
         ; yum clean all
 
-# Copy SSH keys
-
-RUN echo "${CYLC_SSH_PUBKEY}" >> /home/testuser/.ssh/authorized_keys
-RUN chown -R testuser: /home/testuser/.ssh/ \
-    && chmod 0700 /home/testuser/.ssh/ \
-    && chmod 0644 /home/testuser/.ssh/authorized_keys
-
-VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
-WORKDIR "/opt/cylc"
+RUN mkdir /home/testuser/.cylc && chown testuser: /home/testuser/.cylc
 
 # Add Cylc utilities to the PATH environment variable
 
 ENV PATH="/opt/cylc/bin:/usr/bin/:${PATH}"
 COPY cylc/usr/bin/cylc /home/testuser/bin/cylc
 
+RUN chown -R testuser: /home/testuser/bin \
+    && chmod 0755 /home/testuser/bin/cylc
+
+# Copy SSH keys
+
+RUN echo "${CYLC_SSH_PUBKEY}" >> /home/testuser/.ssh/authorized_keys
+
+RUN chown -R testuser: /home/testuser/.ssh/ \
+    && chmod 0700 /home/testuser/.ssh/ \
+    && chmod 0644 /home/testuser/.ssh/authorized_keys
+
+WORKDIR "/opt/cylc"
+
 WORKDIR /usr/local/5.0.0l
 EXPOSE 10389 22
+VOLUME ["/opt/cylc", "/tmp", "/run", "/var/run", "/home/testuser/.cylc"]
 CMD ["/usr/bin/supervisord"]

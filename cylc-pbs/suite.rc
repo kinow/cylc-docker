@@ -13,7 +13,7 @@
             touch testfile
             """
         [[[remote]]]
-            host=cylcpbs_pbs_1
+            host=pbs
         [[[job]]]
             batch system = pbs
         [[[directives]]]
