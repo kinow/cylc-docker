@@ -6,7 +6,8 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
 	python-empy \
 	python-requests \
 	ssh \
-	supervisor
+	supervisor \
+	vim
 
 # Copy SSH keys
 
@@ -16,18 +17,23 @@ RUN adduser "testuser" --uid 500 && \
 COPY id_rsa /home/testuser/.ssh/id_rsa
 COPY id_rsa.pub /home/testuser/.ssh/id_rsa.pub
 COPY config /home/testuser/.ssh/config
-
-RUN chown -R testuser: /home/testuser/.ssh/ \
-    && chmod 0700 /home/testuser/.ssh/ \
-    && chmod 0644 /home/testuser/.ssh/id_rsa.pub \
-    && chmod 0600 /home/testuser/.ssh/config \
-    && chmod 0600 /home/testuser/.ssh/id_rsa
-
-VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
-WORKDIR "/opt/cylc"
+COPY suite.rc /home/testuser/suites/pbs1/suite.rc
 
 ENV PATH="/opt/cylc/bin:/usr/bin/:${PATH}"
 COPY cylc/usr/bin/cylc /home/testuser/bin/cylc
+
+RUN chown -R testuser: /home/testuser/.ssh \
+	&& chown -R testuser: /home/testuser/bin \
+	&& chown -R testuser: /home/testuser/suites \
+    && chmod -R 0700 /home/testuser/bin \
+    && chmod -R 0700 /home/testuser/.ssh \
+    && chmod 0644 /home/testuser/.ssh/id_rsa.pub \
+    && chmod 0600 /home/testuser/.ssh/config \
+    && chmod 0600 /home/testuser/.ssh/id_rsa \
+    && chown testuser: /home/testuser/suites/pbs1/suite.rc
+
+VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
+WORKDIR "/opt/cylc"
 
 ENTRYPOINT []
 CMD ["/usr/bin/supervisord", "-n"]
