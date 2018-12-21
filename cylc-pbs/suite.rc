@@ -1,4 +1,3 @@
-#!Jinja2
 [cylc]
    [[reference test]]
        required run mode = live
@@ -8,18 +7,17 @@
         graph = a:start => b
 [runtime]
     [[a]]
-        script = sleep 20
-{% if "CYLC_TEST_BATCH_TASK_HOST" in environ and environ["CYLC_TEST_BATCH_TASK_HOST"] %}
+        script = """
+            umask 0007
+            rm -rf testfile
+            touch testfile
+            """
         [[[remote]]]
-            host={{environ["CYLC_TEST_BATCH_TASK_HOST"]}}
-{% endif %}
+            host=cylcpbs_pbs_1
         [[[job]]]
             batch system = pbs
         [[[directives]]]
-{% if "CYLC_TEST_BATCH_SITE_DIRECTIVES" in environ and
-        environ["CYLC_TEST_BATCH_SITE_DIRECTIVES"] %}
-    {{environ["CYLC_TEST_BATCH_SITE_DIRECTIVES"]}}
-{% endif %}
+            -W umask=0077
 
     [[b]]
         script = cylc poll "$CYLC_SUITE_NAME" 'a'
