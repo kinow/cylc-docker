@@ -14,6 +14,7 @@ RUN yum install -y \
         python-empy \
         python-urllib3 \
         pyOpenSSL \
+        rsync \
         sqlite \
         time \
         ; yum clean all
