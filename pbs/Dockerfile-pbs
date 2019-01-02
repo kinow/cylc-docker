@@ -37,9 +37,13 @@ RUN chown -R testuser: /home/testuser/.ssh/ \
     && chmod 0700 /home/testuser/.ssh/ \
     && chmod 0644 /home/testuser/.ssh/authorized_keys
 
-WORKDIR "/opt/cylc"
+USER testuser
+RUN mkdir /home/testuser/cylc-run
+VOLUME ["/home/testuser/cylc-run"]
+
+USER root
 
 WORKDIR /usr/local/5.0.0l
 EXPOSE 10389 22
-VOLUME ["/opt/cylc", "/tmp", "/run", "/var/run", "/home/testuser/.cylc"]
+VOLUME ["/opt/cylc"]
 CMD ["/usr/bin/supervisord"]

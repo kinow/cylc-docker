@@ -46,6 +46,11 @@ RUN chown -R testuser: /home/testuser/.ssh \
 
 WORKDIR "/opt/cylc"
 
-VOLUME ["/opt/cylc", "/tmp", "/run", "/var/run", "/home/testuser/.cylc"]
+USER testuser
+RUN mkdir /home/testuser/cylc-run
+VOLUME ["/home/testuser/cylc-run"]
+
+USER root
+VOLUME ["/opt/cylc"]
 ENTRYPOINT []
 CMD ["/usr/bin/supervisord", "-n"]
