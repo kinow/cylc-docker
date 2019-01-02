@@ -43,6 +43,12 @@ VOLUME ["/home/testuser/cylc-run"]
 
 USER root
 
+# In docker-compose we are setting the hostname to pbs. Here we just
+# hint to PBS Torque that there is a node called pbs with 1 processor
+# available. Otherwise it would try to use localhost and fail as
+# `hostname` never returned it!
+RUN echo "pbs np=1" >> /var/spool/torque/server_priv/nodes
+
 WORKDIR /usr/local/5.0.0l
 EXPOSE 10389 22
 VOLUME ["/opt/cylc"]

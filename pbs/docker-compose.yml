@@ -5,6 +5,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile-cylc
+    hostname: cylc
     volumes:
       - ./cylc:/opt/cylc
       - cylcrun:/home/testuser/cylc-run
@@ -17,7 +18,7 @@ services:
       args:
         - CYLC_SSH_PUBKEY=${CYLC_SSH_PUBKEY}
     privileged: true
-    hostname: localhost
+    hostname: pbs
     volumes:
       - ./cylc:/opt/cylc
       - cylcrun:/home/testuser/cylc-run
