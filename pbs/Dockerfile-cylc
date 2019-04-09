@@ -1,4 +1,4 @@
-FROM kinow/cylc-standalone:0.1
+FROM kinow/cylc-standalone:0.3
 
 RUN apt-get update && apt-get --no-install-recommends -y install \
 	inetutils-ping \
