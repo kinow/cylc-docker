@@ -38,7 +38,7 @@ RUN apt-get update && apt-get --no-install-recommends -y install \
         python-pygraphviz \
         python python-dev python-pip \
         python-setuptools \
-        sqlite \
+        sqlite3 \
         time \
         texlive-latex-base \
     && pip install \
