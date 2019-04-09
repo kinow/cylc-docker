@@ -37,10 +37,6 @@ RUN chown -R testuser: /home/testuser/.ssh/ \
     && chmod 0700 /home/testuser/.ssh/ \
     && chmod 0644 /home/testuser/.ssh/authorized_keys
 
-USER testuser
-RUN mkdir /home/testuser/cylc-run
-VOLUME ["/home/testuser/cylc-run"]
-
 USER root
 
 # In docker-compose we are setting the hostname to pbs. Here we just

@@ -8,7 +8,6 @@ services:
     hostname: cylc
     volumes:
       - ./cylc:/opt/cylc
-      - cylcrun:/home/testuser/cylc-run
       - ~/.cylc:/home/testuser/.cylc
     container_name: cylc
   pbs:
@@ -21,8 +20,5 @@ services:
     hostname: pbs
     volumes:
       - ./cylc:/opt/cylc
-      - cylcrun:/home/testuser/cylc-run
       - ~/.cylc:/home/testuser/.cylc
     container_name: pbs
-volumes:
-  cylcrun:

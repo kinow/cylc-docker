@@ -46,10 +46,6 @@ RUN chown -R testuser: /home/testuser/.ssh \
 
 WORKDIR "/opt/cylc"
 
-USER testuser
-RUN mkdir /home/testuser/cylc-run
-VOLUME ["/home/testuser/cylc-run"]
-
 USER root
 VOLUME ["/opt/cylc"]
 ENTRYPOINT []
