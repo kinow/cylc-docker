@@ -3,6 +3,7 @@
 * Docker image: [kinow/cylc-standalone](https://hub.docker.com/r/kinow/cylc-standalone/)
 * Base images: [python:3.7-alpine](https://hub.docker.com/_/python)
 * Source: [Dockerfile](https://github.com/kinow/cylc-docker/blob/master/standalone/8.0a1/Dockerfile), [Cylc](https://cylc.github.io/)
+* Image size: 113.49 MB
 
 In this standalone example, one Cylc container will both schedule and execute all tasks.
 
