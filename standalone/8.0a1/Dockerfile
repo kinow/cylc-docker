@@ -55,7 +55,8 @@ graph = "Hello"\n\
 [runtime]\n\
 [[hello]]\n\
 script = 'sleep 10; echo Hello world!'\n\
-" > /home/cylc/cylc-run/hello/suite.rc
+" > /home/cylc/cylc-run/hello/suite.rc && \
+    chown -R cylc:cylc /home/cylc
 
 USER cylc
 
