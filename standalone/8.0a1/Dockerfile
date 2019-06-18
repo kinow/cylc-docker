@@ -42,8 +42,14 @@ RUN apk update && \
 # Add a sample suite
 
 RUN mkdir -p /root/cylc-run/hello && \
-    cat > /root/cylc-run/hello/suite.rc <<EOF
-
-EOF
+    echo -e "\
+[scheduling]\n\
+[[dependencies]]\n\
+graph = "Hello"\n\
+\n\
+[runtime]\n\
+[[hello]]\n\
+script = 'sleep 10; echo Hello world!'\n\
+" > /root/cylc-run/hello/suite.rc
 
 CMD ["bash"]
