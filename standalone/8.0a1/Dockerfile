@@ -39,9 +39,14 @@ RUN apk update && \
     git+https://github.com/cylc/cylc-flow@002b8528a6f1cbbfa0bc1527aec99fe462951a49#egg=cylc-flow && \
     apk del build-dependencies
 
+# Add a non-root user
+
+RUN addgroup -g 1000 cylc && \
+    adduser -u 1000 -D --home "/home/cylc" cylc -G cylc
+
 # Add a sample suite
 
-RUN mkdir -p /root/cylc-run/hello && \
+RUN mkdir -p /home/cylc/cylc-run/hello && \
     echo -e "\
 [scheduling]\n\
 [[dependencies]]\n\
@@ -50,6 +55,8 @@ graph = "Hello"\n\
 [runtime]\n\
 [[hello]]\n\
 script = 'sleep 10; echo Hello world!'\n\
-" > /root/cylc-run/hello/suite.rc
+" > /home/cylc/cylc-run/hello/suite.rc
+
+USER cylc
 
 CMD ["bash"]

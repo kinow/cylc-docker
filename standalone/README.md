@@ -24,8 +24,12 @@ You can run the container with the following command
 
 ```bash
 $ docker run -t -i kinow/cylc:8.0a1-alpine
+bash-4.4# whoami
+cylc
 bash-4.4# cylc version
 8.0a1
+bash-4.4# cylc run --no-detach --verbose --debug hello
+...
 ```
 
 ## License
