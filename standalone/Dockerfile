@@ -23,36 +23,17 @@ MAINTAINER Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
 
 # A docker container with Cylc installed.
 
-# Install dependencies with apt and pip
+# Install dependencies with apk and pip
 
-RUN apt-get update && apt-get --no-install-recommends -y install \
-        at \
-        build-essential \
-        git \
-        graphviz graphviz-dev libgraphviz-dev \
-        heirloom-mailx \
-        pkg-config \
-        python-gtk2-dev \
-        python-pip \
-        python-wheel \
-        python-pygraphviz \
-        python python-dev python-pip \
-        python-setuptools \
-        sqlite3 \
-        time \
-        texlive-latex-base \
-    && pip install \
-        pycodestyle \
-        pyopenssl
+RUN apk update && \
+    apk add --no-cache \
+    bash \
+    gcc \
+    g++ \
+    libzmq \
+    zeromq-dev \
+    python3-dev && \
+    pip install --no-cache-dir \
+    cylc-flow==8.0a0
 
-VOLUME "/opt/cylc" "/tmp" "/run" "/var/run"
-WORKDIR "/opt/cylc"
-
-# Add Cylc utilities to the PATH environment variable
-
-ENV PATH /opt/cylc/bin:/usr/bin/:$PATH
-
-# Set cylc as entrypoint, so that the container can be run as though it were
-# actually the cylc command
-
-ENTRYPOINT ["cylc"]
+CMD ["bash"]
