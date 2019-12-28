@@ -19,13 +19,17 @@
 
 FROM python:3.7.6-alpine3.11
 
-MAINTAINER Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
+ARG cylc_docker_owner=kinow
+ARG cylc_docker_v=8.0a1
+
+LABEL maintainer=${cylc_docker_owner}
+LABEL version=${cylc_docker_v}
 
 # A docker container with cylc-flow installed.
+# With additional contributions from Alan Christie (alanbchritie).
+# see: https://github.com/alanbchristie/cylc-docker/blob/master/docker/Dockerfile
 
 # Install dependencies with apk and pip
-
-WORKDIR /opt/
 
 RUN apk update && \
     apk add --no-cache \
@@ -42,23 +46,31 @@ RUN apk update && \
 
 # Add a non-root user
 
+ENV USER_NAME cylc
+ENV USER_GROUP cylc
+ENV USER_ROOT /home/${USER_NAME}
+ENV USER_ID 6000
 RUN addgroup -g 1000 cylc && \
-    adduser -u 1000 -D --home "/home/cylc" cylc -G cylc
+    adduser --shell /bin/bash --uid ${USER_ID} -D --home ${USER_ROOT} ${USER_NAME} -G ${USER_GROUP} && \
+    usermod -a -G daemon ${USER_NAME}
 
-# Add a sample suite
+WORKDIR ${USER_ROOT}
+# Copy the examples in
+COPY cylc-suites cylc-suites
 
-RUN mkdir -p /home/cylc/cylc-run/hello && \
-    echo -e "\
-[scheduling]\n\
-[[dependencies]]\n\
-graph = "Hello"\n\
-\n\
-[runtime]\n\
-[[hello]]\n\
-script = 'sleep 10; echo Hello world!'\n\
-" > /home/cylc/cylc-run/hello/suite.rc && \
-    chown -R cylc:cylc /home/cylc
+# Change ownerships...
+# and permissions, sudoers etc...
+RUN chown -R ${USER_NAME} ${USER_ROOT} && \
+    chown -R ${USER_NAME} /tmp && \
+    chmod +x docker-entrypoint.sh
 
-USER cylc
+# we can now switch to our non-root user...
+USER ${USER_ID}
+ENV HOME ${USER_ROOT}
+ENV PYTHONHTTPSVERIFY 0
+ENV PYTHONWARNINGS ignore
 
-CMD ["bash"]
+RUN cylc check-software 2> /dev/null && \
+    cylc version
+
+CMD ./docker-entrypoint.sh
