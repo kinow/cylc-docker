@@ -17,7 +17,7 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
 # THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-FROM python:3.8.1-alpine3.11
+FROM python:3.7.6-alpine3.11
 
 MAINTAINER Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
 
@@ -37,12 +37,8 @@ RUN apk update && \
     git \
     g++ \
     python3-dev && \
-    pip install --no-cache-dir \
-    git+https://github.com/cylc/cylc-flow@8.0a1#egg=cylc-flow && \
+    pip install --no-cache-dir git+https://github.com/cylc/cylc-flow@8.0a1#egg=cylc-flow && \
     apk del build-dependencies
-
-RUN cd cylc-flow && \
-    apt install .[all]
 
 # Add a non-root user
 
