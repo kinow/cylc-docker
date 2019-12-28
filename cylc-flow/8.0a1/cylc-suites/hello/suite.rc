@@ -1,0 +1,7 @@
+[scheduling]
+[[dependencies]]
+graph = "Hello"
+
+[runtime]
+[[hello]]
+script = 'sleep 10; echo Hello world!'
