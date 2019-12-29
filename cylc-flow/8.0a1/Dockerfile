@@ -61,8 +61,8 @@ COPY cylc-suites cylc-suites
 
 # Change ownerships...
 # and permissions, sudoers etc...
-RUN chown -R ${USER_NAME} ${USER_ROOT} && \
-    chown -R ${USER_NAME} /tmp && \
+RUN chown -R ${USER_NAME}:${USER_GROUP} ${USER_ROOT} && \
+    chown -R ${USER_NAME}:${USER_GROUP} /tmp && \
     chmod +x docker-entrypoint.sh
 
 # we can now switch to our non-root user...
