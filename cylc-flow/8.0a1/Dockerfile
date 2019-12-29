@@ -20,10 +20,10 @@
 FROM python:3.7.6-alpine3.11
 
 ARG cylc_docker_owner=kinow
-ARG cylc_docker_v=8.0a1
+ARG cylc_docker_version=8.0a1
 
 LABEL maintainer=${cylc_docker_owner}
-LABEL version=${cylc_docker_v}
+LABEL version=${cylc_docker_version}
 
 # A docker container with cylc-flow installed.
 # With additional contributions from Alan Christie (alanbchritie).
@@ -41,7 +41,7 @@ RUN apk update && \
     git \
     g++ \
     python3-dev && \
-    pip install --no-cache-dir 'cylc-flow[all]==${cylc_docker_v}' && \
+    pip install --no-cache-dir "cylc-flow[all]==${cylc_docker_version}" && \
     apk del build-dependencies
 
 # Add a non-root user
