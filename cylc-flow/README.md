@@ -23,12 +23,42 @@ You can run the container with the following command
 
 ```bash
 $ docker run -t -i kinow/cylc-flow:8.0a1-alpine
-bash-4.4# whoami
+bash-5.0$ whoami
 cylc
-bash-4.4# cylc version
+bash-5.0$ cylc version
 8.0a1
-bash-4.4# cylc run --no-detach --verbose --debug hello
-...
+bash-5.0$ cylc register hello cylc-suites/hello/
+REGISTERED hello -> /home/cylc/cylc-suites/hello
+bash-5.0$ cylc run --no-detach hello
+            ._.                                                       
+            | |                 The Cylc Suite Engine [8.0a1]         
+._____._. ._| |_____.           Copyright (C) 2008-2019 NIWA          
+| .___| | | | | .___|   & British Crown (Met Office) & Contributors.  
+| !___| !_! | | !___.  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+!_____!___. |_!_____!  This program comes with ABSOLUTELY NO WARRANTY.
+      .___! |              It is free software, you are welcome to    
+      !_____!             redistribute it under certain conditions;   
+                        see `COPYING' in the Cylc source distribution. 
+                                                                       
+2019-12-29T00:56:54Z INFO - Suite server: url=tcp://397e5643b9df:43053/ pid=86
+2019-12-29T00:56:54Z INFO - Run: (re)start=0 log=1
+2019-12-29T00:56:54Z INFO - Cylc version: 8.0a1
+2019-12-29T00:56:54Z INFO - Run mode: live
+2019-12-29T00:56:54Z INFO - Initial point: 1
+2019-12-29T00:56:54Z INFO - Final point: 1
+2019-12-29T00:56:54Z INFO - Cold Start 1
+2019-12-29T00:56:54Z INFO - [Hello.1] -submit-num=01, owner@host=397e5643b9df
+2019-12-29T00:56:54Z INFO - [Hello.1] -triggered off []
+2019-12-29T00:56:56Z INFO - [client-command] put_messages cylc@397e5643b9df:cylc-message
+2019-12-29T00:56:56Z INFO - [Hello.1] status=ready: (internal)submitted at 2019-12-29T00:56:55Z for job(01)
+2019-12-29T00:56:56Z INFO - [Hello.1] -health check settings: submission timeout=None
+2019-12-29T00:56:56Z INFO - [Hello.1] status=submitted: (received)started at 2019-12-29T00:56:56Z for job(01)
+2019-12-29T00:56:56Z INFO - [Hello.1] -health check settings: execution timeout=None
+2019-12-29T00:56:56Z INFO - [client-command] put_messages cylc@397e5643b9df:cylc-message
+2019-12-29T00:56:57Z INFO - [Hello.1] status=running: (received)succeeded at 2019-12-29T00:56:56Z for job(01)
+2019-12-29T00:56:57Z INFO - Suite shutting down - AUTOMATIC
+2019-12-29T00:56:57Z INFO - DONE
+bash-5.0$ 
 ```
 
 ## License
