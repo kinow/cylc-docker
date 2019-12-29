@@ -41,7 +41,7 @@ RUN apk update && \
     git \
     g++ \
     python3-dev && \
-    pip install --no-cache-dir git+https://github.com/cylc/cylc-flow@8.0a1#egg=cylc-flow && \
+    pip install --no-cache-dir 'cylc-flow[all]==${cylc_docker_v}' && \
     apk del build-dependencies
 
 # Add a non-root user
@@ -51,10 +51,11 @@ ENV USER_GROUP cylc
 ENV USER_ROOT /home/${USER_NAME}
 ENV USER_ID 6000
 RUN addgroup -g 1000 cylc && \
-    adduser --shell /bin/bash --uid ${USER_ID} -D --home ${USER_ROOT} ${USER_NAME} -G ${USER_GROUP} && \
-    usermod -a -G daemon ${USER_NAME}
+    adduser --shell /bin/bash --uid ${USER_ID} -D --home ${USER_ROOT} ${USER_NAME} -G ${USER_GROUP}
 
 WORKDIR ${USER_ROOT}
+COPY docker-entrypoint.sh ${USER_ROOT}/
+
 # Copy the examples in
 COPY cylc-suites cylc-suites
 
