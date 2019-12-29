@@ -3,7 +3,7 @@
 * Docker image: [kinow/cylc-flow](https://hub.docker.com/r/kinow/cylc-flow/)
 * Base images: [python:3.7.6-alpine](https://hub.docker.com/_/python)
 * Source: [Dockerfile](https://github.com/kinow/cylc-docker/blob/master/cylc-flow/8.0a1/Dockerfile), [Cylc](https://cylc.github.io/)
-* Image size: 113.49 MB
+* Image size: 143.51 MB
 
 ## Build the image
 
