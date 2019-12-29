@@ -39,3 +39,4 @@ Licensed under the MIT License.
 
 - [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices)
 - [Reduce Docker Image Size for Machine Learning](https://jilongliao.com/2018/08/09/Reduce-Docker-Image-Size/)
+- [alanbchristie/cylc-docker](https://github.com/alanbchristie/cylc-docker/)
