@@ -1,11 +1,9 @@
 # Standalone Cylc
 
-* Docker image: [kinow/cylc-standalone](https://hub.docker.com/r/kinow/cylc-standalone/)
-* Base images: [python:3.7-alpine](https://hub.docker.com/_/python)
-* Source: [Dockerfile](https://github.com/kinow/cylc-docker/blob/master/standalone/8.0a1/Dockerfile), [Cylc](https://cylc.github.io/)
+* Docker image: [kinow/cylc-flow](https://hub.docker.com/r/kinow/cylc-flow/)
+* Base images: [python:3.7.6-alpine](https://hub.docker.com/_/python)
+* Source: [Dockerfile](https://github.com/kinow/cylc-docker/blob/master/cylc-flow/8.0a1/Dockerfile), [Cylc](https://cylc.github.io/)
 * Image size: 113.49 MB
-
-In this standalone example, one Cylc container will both schedule and execute all tasks.
 
 ## Build the image
 
@@ -13,18 +11,18 @@ The name of the tag used to build the container is important if you intend
 to run the container as a command.
 
 ```bash
-$ docker build --tag kinow/cylc:8.0a1-alpine .
+$ docker build --tag kinow/cylc-flow:8.0a1-alpine .
 ```
 
-This will create a container with alpine Linux, python 3.7, Cylc dependencies, and
-a version of Cylc installed with `pip`.
+This will create a container with alpine Linux, python 3.7.6, Cylc Flow dependencies, and
+a version of Cylc Flow installed with `pip`.
 
 ### Running the container
 
 You can run the container with the following command
 
 ```bash
-$ docker run -t -i kinow/cylc:8.0a1-alpine
+$ docker run -t -i kinow/cylc-flow:8.0a1-alpine
 bash-4.4# whoami
 cylc
 bash-4.4# cylc version
