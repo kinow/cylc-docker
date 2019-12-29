@@ -1,4 +1,4 @@
-# Standalone Cylc
+# Cylc Flow
 
 * Docker image: [kinow/cylc-flow](https://hub.docker.com/r/kinow/cylc-flow/)
 * Base images: [python:3.7.6-alpine](https://hub.docker.com/_/python)
