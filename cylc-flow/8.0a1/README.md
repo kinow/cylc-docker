@@ -22,7 +22,7 @@ a version of Cylc Flow installed with `pip`.
 You can run the container with the following command
 
 ```bash
-$ docker run -t -i kinow/cylc-flow:8.0a1-alpine
+$ docker run --name cylc-flow -t -i kinow/cylc-flow:8.0a1-alpine
 bash-5.0$ whoami
 cylc
 bash-5.0$ cylc version
