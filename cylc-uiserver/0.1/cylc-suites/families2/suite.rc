@@ -1,0 +1,33 @@
+[scheduling]
+initial cycle point = now
+
+[[dependencies]]
+[[[P1Y]]]
+graph = "FAM3:succeed-all => FAM6"
+
+[runtime]
+    [[root]]
+        init-script = echo "I'm first"
+        env-script = echo "Hi first, I'm second"
+        script = sleep 5; echo "RubyRubyRubyRuby"
+        exit-script = echo 'Yay!'
+        err-script = echo 'Boo!'
+    [[FAM]]
+    [[FAM2]]
+        inherit = FAM
+    [[FAM3]]
+        inherit = FAM2
+    [[foo]]
+        inherit = FAM3
+    [[bar]]
+        inherit = FAM3
+    [[FAM4]]
+    [[FAM5]]
+    [[FAM6]]
+        inherit = FAM5
+    [[qux]]
+        inherit = FAM6
+    [[qaz]]
+        inherit = FAM4, FAM
+    [[qar]]
+        inherit = FAM, FAM4, FAM5
