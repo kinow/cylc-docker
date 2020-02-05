@@ -72,6 +72,7 @@ ENV PYTHONHTTPSVERIFY 0
 ENV PYTHONWARNINGS ignore
 
 RUN cylc check-software 2> /dev/null && \
-    cylc version
+    cylc version && \
+    cylc register hello cylc-suites/hello
 
 CMD ./docker-entrypoint.sh
