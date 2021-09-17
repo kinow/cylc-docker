@@ -1,0 +1,12 @@
+[scheduling]
+  cycling mode = integer
+  initial cycle point = 1
+  [[queues]]
+    [[[default]]]
+      limit = 1
+  [[graph]]
+    R1 = hello
+
+[runtime]
+  [[hello]]
+    script = 'sleep 10; echo Hello world!'
