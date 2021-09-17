@@ -67,6 +67,10 @@ RUN chown -R ${USER_NAME}:${USER_GROUP} ${USER_ROOT} && \
     chown -R ${USER_NAME}:${USER_GROUP} /tmp && \
     chmod +x docker-entrypoint.sh
 
+# FIXME: https://github.com/cylc/cylc-flow/issues/4416
+#        hacking due to incompatible ps args
+RUN sed -i 's/wopid/opid/' /usr/local/lib/python3.7/site-packages/cylc/flow/workflow_files.py
+
 # we can now switch to our non-root user...
 USER ${USER_ID}
 ENV HOME ${USER_ROOT}
